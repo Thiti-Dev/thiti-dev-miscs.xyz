@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "esbuild --bundle --outdir=dist src/index.ts",
-    "dev": "pnpm build && edge-runtime --listen ./dist/index.js --port 3000",
-    "watch": "watch 'pnpm run dev' ./src"
+    "dev": "./kill-edge-listener.sh && pnpm build && edge-runtime --listen ./dist/index.js --port 3000",
+    "watch:dev": "watch 'pnpm run dev' ./src"
   },
   "keywords": [],
   "author": "",
