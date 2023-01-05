@@ -2,3 +2,4 @@
 .trace.sh
 .env
 .db_data
+/dist
