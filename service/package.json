@@ -3,10 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "esbuild --bundle --outdir=dist src/index.ts",
-    "dev": "./kill-edge-listener.sh && pnpm build && edge-runtime --listen ./dist/index.js --port 3000",
-    "watch:dev": "watch 'pnpm run dev' ./src"
+    "dev": "pnpm simulate-edge-function",
+    "watch:dev": "pnpm watch:simulate-edge-function",
+    "migrate:push": "pnpm run env-cmd migrate-development --use-shell \"pnpm prisma db push\"",
+    "migrate:drop": "pnpm run env-cmd migrate-development --use-shell \"pnpm prisma db drop\"",
+    "simulate-edge-function": "pnpm build && pnpm run env-cmd development node edge-runtime-local-simulated-entry.js",
+    "watch:simulate-edge-function": "watch 'pnpm build && ./kill-edge-listener.sh && pnpm run env-cmd development node edge-runtime-local-simulated-entry.js' ./src",
+    "env-cmd": "./node_modules/.bin/env-cmd -f .env-cmdrc -e"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +22,7 @@
     "@types/node": "^18.11.18",
     "@types/node-fetch": "^2.5.11",
     "edge-runtime": "^2.0.2",
+    "env-cmd": "^10.1.0",
     "esbuild": "^0.16.14",
     "node-fetch": "^3.3.0",
     "prisma": "^4.8.0",
