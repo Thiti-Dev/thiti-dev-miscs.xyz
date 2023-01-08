@@ -7,7 +7,11 @@ export interface Env {
   JWT_EXPIRATION_PERIOD: string;
   JWT_SECRET: string;
 }
-async function fetch(request: Request, env: Env): Promise<Response> {
+async function fetch(
+  request: Request,
+  env: Env,
+  context: ExecutionContext
+): Promise<Response> {
   return fetchRequestHandler({
     endpoint: "/trpc",
     req: request,
