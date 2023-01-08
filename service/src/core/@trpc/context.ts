@@ -15,7 +15,12 @@ export function createContext({ req }: FetchCreateContextFnOptions, env: Env) {
   );
 
   const user = { name: req.headers.get("username") ?? "anonymous" };
-  return { req, user, prisma: prismaInstance };
+  return {
+    req,
+    user,
+    prisma: prismaInstance,
+    getEnvironmentVariables: () => env,
+  };
 }
 
 export function getCreateContextHandler(req: Request, env: Env) {
