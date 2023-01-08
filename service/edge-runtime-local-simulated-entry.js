@@ -25,7 +25,7 @@ const runtime = new EdgeRuntime({
 });
 const server = await runServer({
   runtime,
-  port: process.env.EDGE_RUNTIME_PORT || 3000,
+  port: process.env.EDGE_RUNTIME_PORT || process.env.PORT,
 });
 
 console.log(`Listening at ${server.url}`);
