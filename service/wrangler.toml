@@ -1,0 +1,6 @@
+name = "thiti-dev-personal-blog-cloudflare-workers"
+main = "src/index.ts"
+compatibility_date = "2022-05-01"
+
+[vars]
+JWT_EXPIRATION_PERIOD = "1 day"
