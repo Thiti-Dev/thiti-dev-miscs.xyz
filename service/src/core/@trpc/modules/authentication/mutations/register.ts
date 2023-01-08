@@ -1,7 +1,7 @@
 import { z } from "zod";
-import prisma from "../../../../@prisma";
 import { t } from "../../../router";
 import bcrypt from "bcryptjs";
+import type { TProcedureHander } from "../../../interfaces";
 
 const RegisterInputSchema = z.object({
   username: z.string().min(3),
@@ -11,9 +11,8 @@ const RegisterInputSchema = z.object({
 
 type TRegisterInput = z.infer<typeof RegisterInputSchema>;
 
-export default () => ({
-  name: "register",
-  procedure: t.procedure
+function getProcedureMethod() {
+  return t.procedure
     .input(RegisterInputSchema)
     .mutation(async ({ input, ctx }) => {
       const prisma = ctx.prisma.getPrismaClient();
@@ -28,5 +27,15 @@ export default () => ({
           return err;
         });
       return user;
-    }),
+    });
+}
+
+const procedureHandler: TProcedureHander<
+  "register",
+  ReturnType<typeof getProcedureMethod>
+> = () => ({
+  name: "register",
+  procedure: getProcedureMethod(),
 });
+
+export default procedureHandler;

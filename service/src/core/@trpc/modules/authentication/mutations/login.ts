@@ -2,6 +2,7 @@ import { z } from "zod";
 import { t } from "../../../router";
 import bcrypt from "bcryptjs";
 import * as jose from "jose";
+import { TProcedureHander } from "../../../interfaces";
 
 const LoginInputSchema = z.object({
   username: z.string(),
@@ -10,9 +11,8 @@ const LoginInputSchema = z.object({
 
 type TLoginInput = z.infer<typeof LoginInputSchema>;
 
-export default () => ({
-  name: "login",
-  procedure: t.procedure
+function getProcedureMethod() {
+  return t.procedure
     .input(LoginInputSchema)
     .mutation(async ({ input, ctx }) => {
       const prisma = ctx.prisma.getPrismaClient();
@@ -42,5 +42,15 @@ export default () => ({
       return {
         token,
       };
-    }),
+    });
+}
+
+const procedureHandler: TProcedureHander<
+  "login",
+  ReturnType<typeof getProcedureMethod>
+> = () => ({
+  name: "login",
+  procedure: getProcedureMethod(),
 });
+
+export default procedureHandler;

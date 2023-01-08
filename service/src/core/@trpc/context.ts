@@ -3,7 +3,10 @@ import { inferAsyncReturnType } from "@trpc/server";
 import { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import { Env } from "../..";
 import PrismaInstance from "../@prisma";
-export function createContext({ req }: FetchCreateContextFnOptions, env: Env) {
+export function createContext(
+  { req }: Pick<FetchCreateContextFnOptions, "req">,
+  env: Env
+) {
   const prismaInstance = new PrismaInstance(
     new PrismaClient({
       datasources: {
